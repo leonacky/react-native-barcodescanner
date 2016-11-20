@@ -95,6 +95,7 @@ class BarcodeScannerApp extends Component {
   render() {
     return (
       <BarcodeScanner
+        ref={(ref)=>this.scanner=ref}
         onBarCodeRead={this.barcodeReceived}
         style={{ flex: 1 }}
         torchMode={this.state.torchMode}
