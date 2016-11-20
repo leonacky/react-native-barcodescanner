@@ -2,6 +2,12 @@
 
 A barcode scanner component for react native android. The library uses https://github.com/zxing/zxing to decode the barcodes. For iOS you can use https://github.com/lwansbrough/react-native-camera.
 
+I have fixed something:
+* Add function startCamera and stopCamera
+
+This project was forked from Idea Creation' react-native-barcodescanner project
+[found here](https://github.com/ideacreation/react-native-barcodescanner)
+
 ### React Native dependencies
 
 - Version 0.1.4 for React Native <=0.18
@@ -11,7 +17,7 @@ A barcode scanner component for react native android. The library uses https://g
 ### Installation
 
 ```bash
-npm i --save react-native-barcodescanner
+npm i -S https://github.com/leonacky/react-native-barcodescanner
 ```
 
 ### Link it to your android project
@@ -98,6 +104,51 @@ class BarcodeScannerApp extends Component {
 }
 
 AppRegistry.registerComponent('BarcodeScannerApp', () => BarcodeScannerApp);
+```
+
+## To fix lag when open barcode scanner:
+```
+  componentWillMount() {
+    InteractionManager.runAfterInteractions(() => {
+      this.setState({
+          showOverlay: false,
+          showBarcodeScanner: true,
+      });
+    });
+  }
+```
+
+## To fix lag when open new screen from barcodeReceived:
+```
+  barcodeReceived(e) {
+    this.scanner.stopCamera();
+    setTimeout(()=>{
+      //open new screen in here
+    }, 1000);
+  }
+```
+
+## To fix lag when close barcode scanner:
+```
+  constructor(props) {
+    super(props);
+    this._close = this._close.bind(this);
+  }
+  
+  componentDidMount() {
+    BackAndroid.addEventListener('hardwareBackPress', this._close);
+  }
+  
+  componentWillUnmount() {
+    BackAndroid.removeEventListener('hardwareBackPress', this._close);
+  }
+  
+  _close(e) {
+    this.scanner.stopCamera();
+    setTimeout(()=>{
+      //call function pop screen in here
+    }, 1000);
+  }
 ```
 
 ## Example
