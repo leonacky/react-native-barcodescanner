@@ -2,8 +2,9 @@
 
 A barcode scanner component for react native android. The library uses https://github.com/zxing/zxing to decode the barcodes. For iOS you can use https://github.com/lwansbrough/react-native-camera.
 
-I have fixed something:
+I have added something:
 * Add function startCamera and stopCamera
+* Tutorials: implement without lag (in the bottom of this article)
 
 This project was forked from Idea Creation' react-native-barcodescanner project
 [found here](https://github.com/ideacreation/react-native-barcodescanner)
