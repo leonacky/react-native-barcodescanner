@@ -8,6 +8,8 @@ import {
   requireNativeComponent,
   StyleSheet,
   View,
+  UIManager,
+  findNodeHandle,
 } from 'react-native';
 
 import Viewfinder from './Viewfinder';
@@ -17,6 +19,22 @@ class BarcodeScannerView extends Component {
     super(props);
 
     this.onChange = this.onChange.bind(this);
+  }
+
+  stopCamera() {
+      UIManager.dispatchViewManagerCommand(
+          findNodeHandle(this),
+          UIManager.RNBarcodeScannerView.Commands.stopCamera,
+          [],
+      );
+  }
+
+  startCamera() {
+      UIManager.dispatchViewManagerCommand(
+          findNodeHandle(this),
+          UIManager.RNBarcodeScannerView.Commands.startCamera,
+          [],
+      );
   }
 
   onChange(event) {
@@ -65,8 +83,6 @@ BarcodeScannerView.propTypes = {
   viewFinderBorderWidth: PropTypes.number,
   viewFinderBorderLength: PropTypes.number,
   viewFinderShowLoadingIndicator: PropTypes.bool,
-  viewFinderHeight: PropTypes.number,
-  viewFinderWidth: PropTypes.number,
 };
 
 BarcodeScannerView.defaultProps = {

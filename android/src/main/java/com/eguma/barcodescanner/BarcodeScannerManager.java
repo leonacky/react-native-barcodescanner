@@ -9,12 +9,17 @@ import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.ViewGroupManager;
 import com.facebook.react.uimanager.annotations.ReactProp;
+import java.util.Map;
+import com.facebook.react.common.MapBuilder;
+import com.facebook.react.bridge.ReadableArray;
 
 public class BarcodeScannerManager extends ViewGroupManager<BarcodeScannerView> implements LifecycleEventListener {
     private static final String REACT_CLASS = "RNBarcodeScannerView";
 
     private static final String DEFAULT_TORCH_MODE = "off";
     private static final String DEFAULT_CAMERA_TYPE = "back";
+    private static final int COMMAND_STOP_CAMERA = 0x1;
+	private static final int COMMAND_START_CAMERA = 0x2;
 
     private BarcodeScannerView mScannerView;
     private boolean mScannerViewVisible;
@@ -66,5 +71,24 @@ public class BarcodeScannerManager extends ViewGroupManager<BarcodeScannerView> 
     @Override
     public void addView(BarcodeScannerView parent, View child, int index) {
         parent.addView(child, index + 1);   // index 0 for camera preview reserved
+    }
+    
+    @Nullable
+    @Override
+    public Map<String, Integer> getCommandsMap() {
+        return MapBuilder.of(
+        	"stopCamera", COMMAND_STOP_CAMERA,
+        	"startCamera", COMMAND_START_CAMERA
+        );
+    }
+
+    @Override
+    public void receiveCommand(BarcodeScannerView root, int commandId, @Nullable ReadableArray args) {
+        if (commandId == COMMAND_STOP_CAMERA) {
+            root.stopCamera();
+        }
+        if (commandId == COMMAND_START_CAMERA) {
+            root.startCamera();
+        }
     }
 }

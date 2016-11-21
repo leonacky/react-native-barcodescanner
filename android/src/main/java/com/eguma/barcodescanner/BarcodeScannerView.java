@@ -55,6 +55,10 @@ public class BarcodeScannerView extends FrameLayout implements Camera.PreviewCal
     public void stopCamera() {
         mPreview.stopCamera();
     }
+    
+    public void startCamera() {
+        mPreview.startCamera();
+    }
 
     @Override
     public void onPreviewFrame(byte[] data, Camera camera) {
